@@ -13,11 +13,12 @@
     
     <h2>Discover your trips!</h2>
     <v-expansion-panels>
-        <travel-plans-extension-panel v-for="(trip, index) in trips" :key="index"
-            :title="trip.name"
-            :save-changes-button-enabled="true"
+        <travel-plans-extension-panel v-for="(trip) in trips" :key="trip.id"
+            :edit-mode-enabled="true"
             :delete-button-enabled="true"
-            :trip="trip">
+            :trip="trip"
+            @save-trip-clicked="saveTrip"
+            @delete-trip-clicked="deleteTrip">
         </travel-plans-extension-panel>
     </v-expansion-panels>
 
@@ -26,6 +27,7 @@
 </template>
 
 <script>
+import { addTravelPlan, getMyTravelPlans, getAllTravelPlans, updateTravelPlan, removeTravelPlan } from './../api/travelPlans.api';
 import TravelPlansExtensionPanel from './TravelPlansExtensionPanel';
 
 export default {
@@ -33,51 +35,75 @@ export default {
   components: {
     TravelPlansExtensionPanel
   },
+  data() {
+    return {
+      trip: {
+          id: 0,
+          name: "",
+          readonly: false,
+          startDate: "",
+          endDate: "",
+          locations: []
+      },
+      trips: []
+    }
+  },
+  mounted() {
+    this.loadUserTravelPlans();
+  },
   methods: {
     clearTripDataObject() {
-        this.trip = {
-            name: "",
-            start: "",
-            end: "",
-            locations: []
-        }
-      },
-      addTrip() {
-          this.trips.push(this.trip);
+      this.trip = {
+          name: "",
+          startDate: "",
+          endDate: "",
+          locations: []
+      }
+    },
+    addTrip() {
+      addTravelPlan(this.trip)
+        .then(() => {
           this.clearTripDataObject();
-      }
-  },
-  data() {
-      return {
-          trip: {
-              name: "",
-              readonly: false,
-              start: "",
-              end: "",
-              locations: []
-          },
-          trips: [{
-              name: "Test 1",
-              readonly: true,
-              start: "2020-08-22",
-              end: "2020-08-26",
-              locations: ["Croatia", "Serbia"]
-          },
-          {
-              name: "Test 2",
-              readonly: true,
-              start: "2020-08-22",
-              end: "2020-08-26",
-              locations: ["Croatia", "Serbia"]
-          },
-          {
-              name: "Test 3",
-              readonly: true,
-              start: "2020-08-22",
-              end: "2020-08-26",
-              locations: ["Croatia", "Serbia"]
-          }]
-      }
+          this.loadUserTravelPlans();
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
+    saveTrip(trip) {
+      updateTravelPlan(trip)
+        .then(() => {
+          this.loadUserTravelPlans();
+        })
+        .catch((err) => {
+          console.log("Update failed for: " + trip.id);
+          console.log(err);
+        })
+    },
+    deleteTrip(id) {
+      removeTravelPlan(id)
+        .then(() => {
+          this.loadUserTravelPlans();
+        })
+        .catch((err) => {
+          console.log(`Remove of item ID: ${id} failed.`);
+          console.log(err);
+        })
+    },
+    loadUserTravelPlans() {
+      getMyTravelPlans()
+        .then((res) => {
+          if(res && res.data && Array.isArray(res.data)){
+            this.trips = res.data;
+          }       
+        })
+        .catch((err) => {
+          console.log(err)
+        })        
+    },
+    loadAllTravelPlans() {
+      this.trips = getAllTravelPlans();
+    }
   }
 }
 </script>
@@ -85,16 +111,5 @@ export default {
 <style scoped>
 h3 {
   margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
 }
 </style>
