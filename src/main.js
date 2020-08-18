@@ -12,9 +12,9 @@ Vue.use(msal, {
     redirectUri: window.location.origin,
     postLogoutRedirectUri: window.location.origin
   },
-  // request: {
-  //   scopes: ['api://41da160f-4bcc-4d79-80e7-71a51262afb4/user_impersonation', 'user.read']
-  // }
+  request: {
+    scopes: ['api://41da160f-4bcc-4d79-80e7-71a51262afb4/user_impersonation']
+  }
 });
 
 new Vue({

@@ -109,7 +109,8 @@ export default {
 </script>
 
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+h2 {
+  margin: 10px 0 0;
 }
+
 </style>

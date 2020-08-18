@@ -4,12 +4,6 @@
         <v-btn class="ma-2" tile outlined color="indigo" v-on:click="signOut">
             <v-icon left>mdi-microsoft</v-icon>SIGN OUT
         </v-btn>
-        <v-btn class="ma-2" tile outlined color="indigo" v-on:click="acquireToken">
-            <v-icon left>mdi-microsoft</v-icon>ACQUIRE TOKEN
-        </v-btn>
-        <v-btn class="ma-2" tile outlined color="indigo" v-on:click="showIdToken">
-            <v-icon left>mdi-microsoft</v-icon>GET TOKEN
-        </v-btn>
     </div>
     <div v-else>
         <v-btn class="ma-2" tile outlined color="indigo" v-on:click="signIn">
