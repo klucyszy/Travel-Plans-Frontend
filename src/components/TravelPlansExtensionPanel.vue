@@ -2,7 +2,8 @@
     <v-expansion-panel>
         <v-expansion-panel-header>
             <v-row no-gutters>
-                <v-col cols="12">{{panelTitle}}</v-col>
+                <v-col cols="6">{{panelTitle}}</v-col>
+                <v-col cols="6">{{description}}</v-col>
             </v-row>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
@@ -56,6 +57,7 @@
                 </v-col>
             </v-row>
             <v-row no-gutters>
+                <h4 v-if="errorMessage" class="red--text">{{errorMessage}}</h4>
                 <v-spacer></v-spacer>
                 <v-btn v-if="addButtonEnabled" v-on:click="addTrip" class="ma-2" outlined color="indigo">Add trip</v-btn>                
                 <v-btn v-if="editButtonEnabled" v-on:click="enableEditing" class="ma-2" outlined color="indigo">Edit changes</v-btn>
@@ -72,6 +74,14 @@ export default {
   name: 'TravelPlansExtensionPanel',
   props: {
       title: {
+          type: String,
+          default: null
+      },
+      description: {
+          type: String,
+          default: null
+      },
+      errorMessage: {
           type: String,
           default: null
       },

@@ -1,22 +1,47 @@
 <template>
-    <div v-if="user">
-        <div>Welcome {{user.name}}</div>
-        <v-btn class="ma-2" tile outlined color="indigo" v-on:click="signOut">
-            <v-icon left>mdi-microsoft</v-icon>SIGN OUT
-        </v-btn>
-    </div>
-    <div v-else>
-        <v-btn class="ma-2" tile outlined color="indigo" v-on:click="signIn">
-            <v-icon left>mdi-microsoft</v-icon>SIGN IN WITH AZURE AD
-        </v-btn>
+    <div>    
+        <v-row no-gutters align="center" justify="start">
+            <v-col cols="4" class="d-flex justify-start">
+                <h2 class="indigo--text">Travel Plans</h2>
+            </v-col>
+            <v-spacer/>
+            <v-col cols="4" class="d-flex justify-center">
+                <div v-if="user">
+                    <v-btn class="ma-2" tile outlined color="indigo" v-on:click="signOut">
+                        <v-icon left>mdi-microsoft</v-icon>SIGN OUT
+                    </v-btn>
+                </div>
+                <div v-else>
+                    <v-btn class="ma-2" tile outlined color="indigo" v-on:click="signIn">
+                        <v-icon left>mdi-microsoft</v-icon>SIGN IN WITH AZURE AD
+                    </v-btn>
+                </div>
+            </v-col>
+        </v-row>
+        <v-row v-if="user" no-gutters align="center" justify="start" class="mb-2">
+            <v-col cols="12" class="d-flex justify-start">
+                <div v-if="user">
+                    Hello, {{user.userName}}
+                </div>
+            </v-col>
+        </v-row>
+        <v-row v-if="user" no-gutters align="center" justify="center">
+            <v-col cols="12">
+                <TravelPlans/>
+            </v-col>
+        </v-row>
     </div>
 </template>
 
 <script>
+import TravelPlans from './TravelPlans';
 import { msalMixin } from 'vue-msal'; 
 
 export default {
     name: 'AppAuthorizer',
+    components: {
+        TravelPlans
+    },
     mixins: [msalMixin],
     computed: {
         user() {
@@ -25,7 +50,6 @@ export default {
             user = {
               ...this.msal.user 
             }
-            user.accessToken = this.msal.accessToken;
           }
           return user;
         },
@@ -38,7 +62,7 @@ export default {
         }
     },
     watch: {
-        accessToken(oldValue, newValue) {
+        accessToken(newValue) {
             if (newValue){
                 this.saveWepApiTokenToSessionStorage();
             }
