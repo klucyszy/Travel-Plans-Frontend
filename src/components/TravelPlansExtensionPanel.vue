@@ -50,7 +50,7 @@
                     <v-chip class="mx-2" v-for="(location, index) in trip.locations" :key="index">
                         <span>{{ location }}</span>
                         <v-btn v-if="!readonly" v-on:click="removeLocation(location)" class="mx-0" small dark icon color="grey">
-                            <v-icon dark>mdi-delete</v-icon>
+                            <v-icon dark>mdi-window-close</v-icon>
                         </v-btn>
                     </v-chip>
                 </v-col>

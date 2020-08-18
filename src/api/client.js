@@ -11,4 +11,13 @@ const httpClient = axios.create({
     }
 });
 
+const getAuthToken = () => sessionStorage.getItem('TRAVEL_PLANS_API_TOKEN');
+
+const authInterceptor = (config) => {
+    config.headers['Authorization'] = getAuthToken();
+    return config;
+}
+
+httpClient.interceptors.request.use(authInterceptor);
+
 export default httpClient;
