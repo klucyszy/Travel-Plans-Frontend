@@ -16,6 +16,11 @@
  ### 4. Admin logged in [Admin Mode]
  ![image](https://user-images.githubusercontent.com/23438950/90578719-4ffc5d00-e1c4-11ea-8ded-0e80f34e324a.png)
 
+## Technologies
+ - axios (https://github.com/axios/axios)
+ - vue-msal (https://www.npmjs.com/package/vue-msal)
+ - 
+
 ## Project setup
 ```
 npm install
